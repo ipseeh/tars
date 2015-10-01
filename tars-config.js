@@ -144,7 +144,7 @@ var tarsConfig = {
          * Example: ['google chrome', 'firefox']
          * Avalible: safari, internet explorer, google chrome, firefox, opera
          */
-        browser: 'google chrome',
+        browser: 'firefox',
 
         /**
          * Choose the page to open in browser at first opening
@@ -156,7 +156,7 @@ var tarsConfig = {
          * If you don't need to see notification in browser, switch to false
          * @type {Boolean}
          */
-        useNotifyInBrowser: true
+        useNotifyInBrowser: false
     },
 
     /**
@@ -231,14 +231,14 @@ var tarsConfig = {
      * Available 'jade' and 'handlebars'
      * @type {String}
      */
-    templater: 'handlebars',
+    templater: 'jade',
 
     /**
      * Css-preprocessor
      * Available 'scss', 'less' or 'stylus'
      * @type {String}
      */
-    cssPreprocessor: 'scss',
+    cssPreprocessor: 'stylus',
 
     /**
      * What kind of size of images are you going to use.

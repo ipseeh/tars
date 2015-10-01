@@ -1,0 +1,21 @@
+doctype html
+html.no-js(lang="ru")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="x-ua-compatible" content="ie=edge")
+    block title
+      title Default title
+    meta(name="description" content="")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    include favicons
+    include cssLinks
+    include hScripts
+  body.site
+    include oldbrowser
+    include ../modules/header
+    include ../modules/nav
+    block content
+      //- Your content here
+    include ../modules/footer
+  include fScripts
+  include metrics
