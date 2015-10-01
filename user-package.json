@@ -1,4 +1,9 @@
 {
     "dependencies": {
+    },
+    "devDependencies": {
+      "lost": "^6.6.1",
+      "rupture": "^0.6.1",
+      "typographic": "^2.9.3"
     }
 }
