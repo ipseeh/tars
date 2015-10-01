@@ -48,7 +48,11 @@
     "run-sequence": "1.1.2",
     "through2": "2.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "lost": "^6.6.1",
+    "rupture": "^0.6.1",
+    "typographic": "^2.9.3"
+  },
   "optionalDependencies": {
     "posix": "^2.0.1",
     "fsevents": "^0.3.7"
