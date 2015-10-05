@@ -95,19 +95,21 @@ gulp.task('build-dev', function (cb) {
 
     runSequence(
         'service:clean',
-        ['images:minify-svg', 'images:raster-svg'],
         [
-            'css:make-sprite-for-svg', 'css:make-fallback-for-svg', 'css:make-sprite'
+            /*'images:minify-svg', 'images:raster-svg'*/
         ],
         [
-            /*'css:compile-css', 'css:compile-css-for-ie8',*/ 'stylus:compile',
+            /*'css:make-sprite-for-svg', 'css:make-fallback-for-svg', 'css:make-sprite'*/
+        ],
+        [
+            /*'css:compile-css', 'css:compile-css-for-ie8',*/ 'stylus:compile'
             /*'html:concat-modules-data',*/
-            'js:move-separate', 'js:processing'
+            /*'js:move-separate', 'js:processing'*/
         ],
         [
-            /*'html:compile-templates',*/ 'jade:compile',
-            'other:move-misc-files', 'other:move-fonts', 'other:move-assets',
-            'images:move-content-img', 'images:move-plugins-img', 'images:move-general-img'
+            /*'html:compile-templates',*/ 'jade:compile'
+            /*'other:move-misc-files', 'other:move-fonts', 'other:move-assets',*/ 'move:fonts'
+            /*'images:move-content-img', 'images:move-plugins-img', 'images:move-general-img'*/
         ],
         cb
     );
@@ -119,11 +121,11 @@ gulp.task('build', function () {
     runSequence(
         'build-dev',
         [
-            'html:minify-html', 'images:minify-raster-img'
+            /*'html:minify-html', 'images:minify-raster-img',*/ 'move:misc'
         ],
         'service:pre-build',
         [
-            'css:compress-css'
+            /*'css:compress-css'*/
         ],
         'service:zip-build',
         function () {

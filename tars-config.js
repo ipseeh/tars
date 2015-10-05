@@ -144,7 +144,7 @@ var tarsConfig = {
          * Example: ['google chrome', 'firefox']
          * Avalible: safari, internet explorer, google chrome, firefox, opera
          */
-        browser: 'firefox',
+        browser: 'google chrome',
 
         /**
          * Choose the page to open in browser at first opening
@@ -178,7 +178,7 @@ var tarsConfig = {
      * Will be replaced to '/static/img/logo.png'
      * @type {String}
      */
-    staticPrefix: 'static/',
+    staticPrefix: 'assets/',
 
     /**
      * Beginning of path for static files for using in css
@@ -196,7 +196,7 @@ var tarsConfig = {
      * Could be like '../../../build' or absolute path
      * @type {String}
      */
-    buildPath: './builds/',
+    buildPath: './app/',
 
     /**
      * Use build versioning
@@ -252,7 +252,7 @@ var tarsConfig = {
      * and delete unused.
      * @type {Array}
      */
-    useImagesForDisplayWithDpi: [96],
+    useImagesForDisplayWithDpi: [96, 192],
 
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
@@ -275,7 +275,7 @@ var tarsConfig = {
          * 'static' by default
          * @type {String}
          */
-        staticFolderName: 'static',
+        staticFolderName: 'assets',
 
         /**
          * Name of folder with images

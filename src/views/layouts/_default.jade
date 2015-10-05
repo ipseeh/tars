@@ -7,15 +7,15 @@ html.no-js(lang="ru")
       title Default title
     meta(name="description" content="")
     meta(name="viewport" content="width=device-width, initial-scale=1")
-    include favicons
-    include cssLinks
-    include hScripts
+    include ../meta/favicons
+    include ../meta/cssLinks
+    include ../meta/hScripts
   body.site
-    include oldbrowser
+    include ../modules/oldbrowser
     include ../modules/header
     include ../modules/nav
     block content
       //- Your content here
     include ../modules/footer
-  include fScripts
-  include metrics
+  include ../meta/fScripts
+  include ../meta/metrics
