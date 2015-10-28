@@ -27,7 +27,10 @@ var tarsConfig = {
      *     }
      * ]
      */
-    postcss: [],
+    postcss: [{
+        name: 'lost',
+        options: {}
+    }],
 
     /**
      * Use svg images
@@ -82,11 +85,11 @@ var tarsConfig = {
     sourcemaps: {
         js: {
             active: true,
-            inline: true
+            inline: false
         },
         css: {
             active: true,
-            inline: true
+            inline: false
         }
     },
 
@@ -159,7 +162,7 @@ var tarsConfig = {
          * Switch to false, if you don't need to open browser in dev mode
          * @type {Boolean}
          */
-        open: true,
+        open: false,
 
         /**
          * Choose browser to open
@@ -167,7 +170,7 @@ var tarsConfig = {
          * Example: ['google chrome', 'firefox']
          * Avalible: safari, internet explorer, google chrome, firefox, opera
          */
-        browser: 'default',
+        browser: 'google chrome',
 
         /**
          * Choose the page to open in browser at first opening
@@ -227,7 +230,7 @@ var tarsConfig = {
      * Build version is a date ot building
      * @type {Boolean}
      */
-    useBuildVersioning: true,
+    useBuildVersioning: false,
 
     /**
      * Use archiver for your build

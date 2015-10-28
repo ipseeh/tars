@@ -1,35 +1,32 @@
-/* Position utility.
- *
- * Synopsis:
- *  fixed: [n] | <pos> [n]
- *
- * Examples:
- *
- *    pos(0 0 0 0)
- *      yields:
- *        top: 0
- *        right: 0
- *        bottom: 0
- *        left: 0
- *
- *    fixed(5px 0px)
- *      yields:
- *        position: fixed
- *        top: 5px
- *        right: 0px
- *
- *    fixed(bottom 5px)
- *      yields:
- *        position: fixed
- *        bottom: 5px
- *
- *    absolute(top 10px bottom 5px)
- *      yields:
- *        position: absolute
- *        top: 10px
- *        bottom: 5px
- *
- */
+// Position utility
+// *
+//  Synopsis:
+//   fixed: [n] | <pos> [n]
+// *
+//  Examples:
+//     pos(0 0 0 0)
+//       yields:
+//         top: 0
+//         right: 0
+//         bottom: 0
+//         left: 0
+// *
+//     fixed(5px 0px)
+//       yields:
+//         position: fixed
+//         top: 5px
+//         right: 0px
+// *
+//     fixed(bottom 5px)
+//       yields:
+//         position: fixed
+//         bottom: 5px
+// *
+//     absolute(top 10px bottom 5px)
+//       yields:
+//         position: absolute
+//         top: 10px
+//         bottom: 5px
 
 -pos(args, type = false)
 
@@ -49,7 +46,6 @@
       for arg, i in args
         if ! args[i] == '0'
           {type}-{sides[i]}: arg
-
   else
     for arg, i in args
       if arg == 'top' || arg == 'right' || arg == 'bottom' || arg == 'left'
@@ -75,25 +71,22 @@ relative()
   -pos(arguments)
 
 
-
-/* Size utility.
- *
- * Synopsis:
- *  size: <width> <height> | <width & height>
- *
- * Examples:
- *
- *    size(100% 30px)
- *      yields:
- *        width: 100%
- *        height: 30px
- *
- *    size(5px)
- *      yields:
- *        width: 5px
- *        height: 5px
- *
- */
+// Size utility
+// *
+// Synopsis:
+//  size: <width> <height> | <width & height>
+// *
+// Examples:
+//    size(100% 30px)
+//      yields:
+//        width: 100%
+//        height: 30px
+// *
+//    size(5px)
+//      yields:
+//        width: 5px
+//        height: 5px
+//
 
 size()
   if length(arguments) == 1
@@ -104,26 +97,21 @@ size()
     height: arguments[1]
 
 
-
-/*
- * Border triangles utility.
- *
- * Synopsis:
- *   css-triangle: <size> <color> <direction>
- *
- * Examples:
- *
- *    css-triangle(5px #000 top)
- *      yields:
- *        content: ''
- *        display: block
- *        width: 0
- *        height: 0
- *        border: inset 5px
- *        border-color: transparent transparent #000 transparent
- *        border-bottom-style: solid
- *
- */
+// Border triangles utility
+// *
+// Synopsis:
+//  css-triangle: <size> <color> <direction>
+// *
+// Examples:
+//   css-triangle(5px #000 top)
+//     yields:
+//       content: ''
+//       display: block
+//       width: 0
+//       height: 0
+//       border: inset 5px
+//       border-color: transparent transparent #000 transparent
+//       border-bottom-style: solid
 
 css-triangle($triangle-size, $triangle-color, $triangle-direction)
   content: ""
@@ -145,12 +133,7 @@ css-triangle($triangle-size, $triangle-color, $triangle-direction)
     border-right-style: solid
 
 
-
-
-/*
- * Hide text
- *
- */
+// Hide text
 
 hide-text()
   text-indent: 200%
@@ -158,12 +141,7 @@ hide-text()
   overflow: hidden
 
 
-
-
-/*
- * Font connect
- *
- */
+// Font connect
 
 font-connect(family, src)
   font-family: family
@@ -176,11 +154,29 @@ font-connect(family, src)
   font-style: normal
 
 
+// Fonts connect
 
-/*
- * Font rendering OS X
- *
- */
+font-url(file)
+  return '../fonts/' + file
+
+webfont(family, file, hack-chrome-windows = false, weight = 'normal', style = 'normal')
+  @font-face
+    font-family family
+    src url(font-url(file + '.eot'))
+    src url(font-url(file + '.eot?#iefix')) format('embedded-opentype'),
+        url(font-url(file + '.woff')) format('woff'),
+        url(font-url(file + '.ttf')) format('truetype'),
+        url(font-url(file + '.svg#'+ family)) format('svg')
+    font-weight weight
+    font-style style
+  if hack-chrome-windows
+    @media screen and (-webkit-min-device-pixel-ratio:0)
+      @font-face
+        font-family family
+        src url(font-url(file + '.svg#'+ family)) format('svg')
+
+
+// Font rendering OS X
 
 font-smoothing(active = true)
   if active == true
@@ -191,11 +187,8 @@ font-smoothing(active = true)
     -moz-osx-font-smoothing: auto
 
 
+// Convert px to rem
 
-/*
-* Convert px to rem
-*
-*/
 torem(value)
   u = unit(value)
   if (u is 'px')
@@ -204,11 +197,8 @@ torem(value)
     return unit(value, u);
 
 
+// Box sizing
 
-/*
-* Box sizing
-*
-*/
 box-sizing(value)
   html
     box-sizing value

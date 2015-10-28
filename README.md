@@ -11,7 +11,7 @@ TARS will be suitable for teams and individual developer. It solves the most rou
 
 TARS is the framework for gulp, including a set of gulp-tasks and it allows the ability to easily expand (creating new tasks) and modification of existing tasks.
 
-TARS provides comfortable architecture for storage tasks and watchers in the project. 
+TARS provides comfortable architecture for storage tasks and watchers in the project.
 
 There is [TARS-CLI](https://github.com/tars/tars-cli) in order to not install all dependencies all the time, when you are installing TARS. So, TARS is not a npm-package by itself. This decision was decided so that everyone can customize the builder as comfortable as possible for themselves. CLI — just simple interface for builder, which includes all dependencies for TARS.
 
@@ -54,7 +54,7 @@ npm install -g gulp
 npm install
 ```
 
-If not all of the dependencies have been installed, the last operation must be repeated. 
+If not all of the dependencies have been installed, the last operation must be repeated.
 
 After installing of all dependencies you need to open tars-config (detailed description of the options [here](/docs/en/options.md)) and set up the project for yourself. In the config, you can select the templater, css-preprocessor, using the notifications, folder names for different static and etc. After setting up the project, execute the following command:
 
@@ -62,7 +62,7 @@ After installing of all dependencies you need to open tars-config (detailed desc
 gulp init
 ```
 
-This command will create the basic file structure, take tasks for selected templater and css-preprocessor. 
+This command will create the basic file structure, take tasks for selected templater and css-preprocessor.
 Everything is ready, make it work! :)
 
 

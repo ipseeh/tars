@@ -1,0 +1,18 @@
+extends layouts/_default.jade
+include ../modules/gallery/gallery
+
+block title
+  title I'am the TARS
+
+block content
+  //- .svg-icon-1.i-svg-bg
+  //- .png-icon-1
+  .wrap
+    .grid-item
+      | 1/3
+    .grid-item
+      | 1/3
+    .grid-item
+      | 1/3
+
+  +gallery(gallery['images'])

@@ -1,0 +1,5 @@
+mixin gallery(data)
+  .gallery
+    each val in data['items']
+      .gallery__item
+        img(src="#{val.src}" alt="#{val.alt}")

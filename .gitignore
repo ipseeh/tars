@@ -1,5 +1,6 @@
-node_modules
 dev
+markup
+node_modules
 .DS_Store
 ._.DS_Store
 

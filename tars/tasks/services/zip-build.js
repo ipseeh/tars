@@ -18,7 +18,7 @@ module.exports = function () {
                         notifier.error('An error occurred while creating zip-archive.', error);
                     }
                 }))
-                .pipe(zip('build' + tars.options.build.version + '.zip'))
+                .pipe(zip('_build' + tars.options.build.version + '.zip'))
                 .pipe(gulp.dest(tars.options.build.path))
                 .pipe(
                     notifier.success('Zip-archive\'s been created')

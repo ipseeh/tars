@@ -1,0 +1,15 @@
+$facebook = 0px 0px 0px 0px 64px 64px 132px 132px;
+$instagram = 68px 0px -68px 0px 64px 64px 132px 132px;
+$twitter = 0px 68px 0px -68px 64px 64px 132px 132px;
+
+i-png($sprite, $repeat = no-repeat) {
+  width: $sprite[4];
+  height: $sprite[5];
+  background-position: $sprite[2] $sprite[3];
+  background-image: url('%c%png-sprites/sprite_96.png');
+  background-size: $sprite[6] $sprite[7];
+  background-repeat: $repeat;
+  @media screen and (-webkit-min-device-pixel-ratio: 2), only screen and ( min-resolution: 192dpi), only screen and ( min-resolution: 2dppx), only screen and (min-device-pixel-ratio: 2) {
+    background-image: url('%c%png-sprites/sprite_192.png');
+  }
+}
