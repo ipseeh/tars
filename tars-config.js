@@ -162,7 +162,7 @@ var tarsConfig = {
          * Switch to false, if you don't need to open browser in dev mode
          * @type {Boolean}
          */
-        open: false,
+        open: true,
 
         /**
          * Choose browser to open
