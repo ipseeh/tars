@@ -19,9 +19,8 @@ function tarsRequire(packageName) {
             console.log('\n\n');
             tars.say('It seems, that you use old version of TARS-CLI, and some packages are not available.');
             tars.say('Update TARS-CLI via ' + gutil.colors.cyan.bold('"tars update"') + '.');
-            tars.say('Please, repost the follow log to the tars.builder@gmail.com, if update did\'t help you.\n')
-
-            throw error;
+            tars.say('Please, write to the tars.builder@gmail.com, if update did\'t help you.')
+            throw new Error('Current version or TARS-CLI is too old for downloaded TARS');
         }
 
     } else {
@@ -91,7 +90,6 @@ require('./helpers/start-screen-generator')(gutil);
 
 // Required packages
 tars.packages = {
-    addsrc: tars.require('gulp-add-src'),
     autoprefixer: tars.require('autoprefixer'),
     babel: tars.require('gulp-babel'),
     browserSync: tars.require('browser-sync'),
@@ -108,10 +106,11 @@ tars.packages = {
     gulpHandlebars: tars.require('gulp-compile-handlebars'),
     gulpif: tars.require('gulp-if'),
     gutil: gutil,
-    handlebars: tars.require('gulp-compile-handlebars/node_modules/handlebars'),
+    handlebars: tars.require('handlebars'),
     htmlMin: tars.require('gulp-minify-html'),
     htmlPrettify: tars.require('gulp-html-prettify'),
     imagemin: tars.require('gulp-imagemin'),
+    importify: tars.require('gulp-importify'),
     jade: tars.require('gulp-jade'),
     jscs: tars.require('gulp-jscs'),
     jshint: tars.require('gulp-jshint'),
@@ -132,7 +131,7 @@ tars.packages = {
     stylus: tars.require('gulp-stylus'),
     svg2png: tars.require('gulp-svg2png'),
     svgspritesheet: tars.require('gulp-svg-spritesheet'),
-    streamCombiner: tars.require('stream-combiner2'),
+    streamCombiner: tars.require('stream-combiner'),
     through2: tars.require('through2'),
     uglify: tars.require('gulp-uglify'),
     zip: tars.require('gulp-zip')

@@ -4,7 +4,7 @@
 
 # ![Tars](https://raw.githubusercontent.com/artem-malko/artwork/master/tars/logo.png)
 
-[![Mac/Linux Build Status](https://img.shields.io/travis/tars/tars/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/tars/tars) [![Windows Build status](https://img.shields.io/appveyor/ci/artem-malko/tars/master.svg?label=Windows)](https://ci.appveyor.com/project/artem-malko/tars/branch/master) [![Dependency Status](https://david-dm.org/tars/tars.svg)](https://david-dm.org/tars/tars) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/2gis/tars?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Mac/Linux Build Status](https://img.shields.io/travis/tars/tars/master.svg?label=Mac%20OSX%20%26%20Linux&style=flat-square)](https://travis-ci.org/tars/tars) [![Windows Build status](https://img.shields.io/appveyor/ci/artem-malko/tars/master.svg?label=Windows&style=flat-square)](https://ci.appveyor.com/project/artem-malko/tars/branch/master) [![Gitter](https://badges.gitter.im/Join%20Chat.svg?style=flat-square)](https://gitter.im/2gis/tars?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Сборщик html-верстки, основанный на [gulp](http://gulpjs.com/). Облегчает и ускоряет процесс html-верстки любой сложности.
 Подойдет как командам, так и отдельному разработчику. TARS решает большинство рутинных дел, связанных с версткой, чтобы вы получали больше удовольствия от работы.
@@ -40,7 +40,19 @@ TARS предоставляет удобную архитектуру хране
 
 **Обращаю ваше внимание, что предпочтительно использовать [TARS-CLI](https://github.com/tars/tars-cli). Это удобнее, нагляднее, занимает меньше места.**
 
-Необходимо [установить `Node.js`](http://nodejs.org/) версии >= 0.10.
+Необходимо [установить `Node.js`](http://nodejs.org/) версии >= 0.12 Если вы используете Node.js версии 5.x.x, убедитесь, что вы используете npm версии 3.3.10 и выше. В противном случае обновите npm:
+
+```bash
+npm i -g npm
+```
+
+Пользователям Windows необходимо выполнить еще пару шагов:
+
+* перейти в C:\Program Files (x86)\nodejs или C:\Program Files\nodejs в cmd.exe или в любом другом терминале. Путь зависит от того, куда Node.js был установлен;
+* запустите команду `npm install npm@latest`.
+
+Возможно потребуются права суперюзера.
+
 Далее необходимо установить gulp глобально. (Возможно потребуются права суперюзера или администратора)
 
 ```shell
@@ -73,7 +85,7 @@ gulp init
 
 `gulp init` — Инициализирует проект с заданными опциями в tars-config. Создает файловую структуру.
 
-`gulp re-init` — Переинициализирует проект с заданными опциями в tars-config. Предлагается использовать данную команду, если вы инициализировали проект с неверными опциями. При переинициализации все папки и файлы удаляются.
+`gulp re-init` — Переинициализирует проект с заданными опциями в tars-config. Предлагается использовать данную команду, если вы инициализировали проект с неверными опциями. **Внимание, при переинициализации все папки и файлы удаляются.**
 
 `gulp` или `gulp build` — делает сборку проекта. Подключаются не минимизированные файлы. Тип сборки зависит от переданных ключей вместе с этой командой. Доступные ключи:
 
@@ -110,7 +122,7 @@ gulp init
 * [Css](/docs/ru/css-processing.md)
 * [Js](/docs/ru/js-processing.md)
 * [Работа с изображениями](/docs/ru/images-processing.md)
-* [Работа со шрифтами и misc-файлами](/docs/fonts-and-misc.md)
+* [Работа со шрифтами и misc-файлами](/docs/ru/fonts-and-misc.md)
 * [Сценарии использования](/docs/ru/scenarios.md)
 * [Руководство по обновлению](/docs/ru/update-guide.md)
 * [Руководство для контрибуторов](/docs/ru/for-contributors.md)

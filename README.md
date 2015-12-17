@@ -4,7 +4,7 @@ English description | <a href="README_RU.md">Описание на русско�
 
 # ![Tars](https://raw.githubusercontent.com/artem-malko/artwork/master/tars/logo.png)
 
-[![Mac/Linux Build Status](https://img.shields.io/travis/tars/tars/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/tars/tars) [![Windows Build status](https://img.shields.io/appveyor/ci/artem-malko/tars/master.svg?label=Windows)](https://ci.appveyor.com/project/artem-malko/tars/branch/master) [![Dependency Status](https://david-dm.org/tars/tars.svg)](https://david-dm.org/tars/tars) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/2gis/tars?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Mac/Linux Build Status](https://img.shields.io/travis/tars/tars/master.svg?label=Mac%20OSX%20%26%20Linux&style=flat-square)](https://travis-ci.org/tars/tars) [![Windows Build status](https://img.shields.io/appveyor/ci/artem-malko/tars/master.svg?label=Windows&style=flat-square)](https://ci.appveyor.com/project/artem-malko/tars/branch/master) [![Gitter](https://badges.gitter.im/Join%20Chat.svg?style=flat-square)](https://gitter.im/2gis/tars?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 TARS is a markup builder, which is based on [gulp.js](http://gulpjs.com/). It facilitates and accelerates process of html-markup of any complexity.
 TARS will be suitable for teams and individual developer. It solves the most routine cases associated with a markup and it brings you more pleasure from work.
@@ -42,7 +42,20 @@ Listed below are just a little part of the features. In fact builder has much mo
 **Attention, [TARS-CLI](https://github.com/tars/tars-cli) is the preferably
  way to work with TARS. It is more comfortable, fast to work with TARS-CLI.**
 
-You need to [install `Node.js`](http://nodejs.org/) with version equal to 0.10 or more. Next you need to install gulp globally. (You may need rights of superuser or administrator).
+You need to [install `Node.js`](http://nodejs.org/) with version equal to 0.12 or more. If you use Node.js version 5.x.x, please, be sure, that you use npm version 3.3.10 and higher. Otherwise update npm by using command:
+
+```bash
+npm i -g npm
+```
+
+For Windows you have to do some more steps:
+
+* navigate to C:\Program Files (x86)\nodejs or C:\Program Files\nodejs via cmd.exe or any available terminal. The path depends on how Node.js was installed;
+* run command `npm install npm@latest`.
+
+If you get a **Permission denied** or **Error: EACCES** error, you should run the previous command again in sudo.
+
+Next you need to install gulp globally. (You may need rights of superuser or administrator).
 
 ```shell
 npm install -g gulp
@@ -70,7 +83,7 @@ Everything is ready, make it work! :)
 
 `gulp init` — initializes project with the specified settings in the tars-config. Creates a file structure.
 
-`gulp re-init` — reinitialize the project with specified settings in the tars-config. It is proposed to use this command if you initialize the project with incorrect options.
+`gulp re-init` — reinitialize the project with specified settings in the tars-config. It is proposed to use this command if you initialize the project with incorrect options. **Attention, files from pages and static folder will be deleted.**
 
 `gulp` or `gulp build` — make project assembly. There not minimized files are connected. Type of assembly depends on the transmitted keys with this command. Available keys:
 

@@ -8,15 +8,15 @@ TARS – набор gulp-тасков, организованных особым
 
 ## Таски в TARS
 
-Каждый таск представляет из себя [commonJS-модуль](http://wiki.commonjs.org/wiki/Modules/1.1). Все таски включаются в gulpfile в корне проекта автоматически. Пользовательские таски будут подключены в gulpfile также автоматически, но их необходимо включить в основные-таски в gulpfile, чтобы вы могли их использовать. 
+Каждый таск представляет из себя [commonJS-модуль](http://wiki.commonjs.org/wiki/Modules/1.1). Все таски включаются в gulpfile в корне проекта автоматически. Пользовательские таски будут подключены в gulpfile также автоматически, но их необходимо включить в основные-таски в gulpfile, чтобы вы могли их использовать.
 
 Свои таски можно создавать в директории user-tasks. По умолчанию там уже находится пример таска. Разберем его подробнее.
 
 По умолчанию каждому таску требуется набор модулей для корректной работы:
 
 ```javascript
-var gulp = require('gulp');
-var gutil = tars.packges.gutil;
+var gulp = tars.packages.gulp;
+var gutil = tars.packages.gutil;
 var notify = tars.packages.notify;
 var notifier = tars.helpers.notifier;
 ```
@@ -37,15 +37,16 @@ var browserSync = tars.packages.browserSync;
 require('./ path to task file from current task');
 ```
 
-Затем идет тело модуля, который будет экспортировать таск. Каждый таск описывается внутри экспортируемой функции, которая получает в качестве параметра конфиг сборки (buildOptions). В конфиге сборки находится хеш (если происходит сборка с ключом `--release`), а также версия текущей сборки, если используется версионирование. Экспортируемая функция возвращает полноценный gulp-таск. Далее делаем все как и с обычным таском для gulp.
+Затем идет тело модуля, который будет экспортировать таск. Каждый таск описывается внутри экспортируемой функции. Во всех тасках и вотчерах досутпен глобальный объект tars, в котором находятся все данные, конфиги и т.д. текущего проекта.
+Экспортируемая функция возвращает полноценный gulp-таск. Далее делаем все как и с обычным таском для gulp.
 
 Если требуется нотификация, то таск должен оканчиваться следующим образом:
 
 ```javascript
 // If you need to reload browser, uncomment the row below
-// .pipe(browserSync.reload({stream:true}))
+// .pipe(browserSync.reload({ stream:true }))
 .pipe(
-    notifier('Example task is finished \n')
+    notifier.success('Example task is finished \n')
 );
 ```
 
@@ -55,7 +56,7 @@ require('./ path to task file from current task');
 
 Может показаться, что в некторых местах есть излишний код, есть обращения к файлам, а не потокам. Такие места есть, но это сделано в угоду модульности и легкой расширяемости. На самом деле, на скорость работы сборщика именно эти места не влияют.
 
-Вообще, в TARS можно подключить любой gulp-task. 
+Вообще, в TARS можно подключить любой gulp-task.
 
 
 ## Вотчеры в TARS
@@ -67,8 +68,8 @@ require('./ path to task file from current task');
 По умолчанию каждому вотчеру требуется набор модулей для корректной работы:
 
 ```javascript
-var gulp = require('gulp');
-var gutil = tars.packges.gutil;
+var gulp = tars.packages.gulp;
+var gutil = tars.packages.gutil;
 var chokidar = tars.packages.chokidar;
 var watcherLog = tars.helpers.watcherLog;
 ```
@@ -95,5 +96,5 @@ var watcherLog = tars.helpers.watcherLog;
 
 * tars.config.fs.staticFolderName — для имени папки со статикой
 * tars.config.fs.imagesFolderName — для имени папки с изображениями
-* watchOptions.templateExtension – содержит расширение для файлов выбранного шаблонизатора
-* watchOptions.cssPreprocExtension – содержит расширение для файлов выбранного css-препроцессора
+* tars.templater.ext – содержит расширения (Массив) для файлов выбранного шаблонизатора
+* tars.cssPreproc.ext – содержит расширение для файлов выбранного css-препроцессора

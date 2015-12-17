@@ -1,5 +1,24 @@
 # Changelog
 
+## Version 1.5.0
+
+* Fix installation in npm3. IF you have a project, which has been made width TARS 1.4.1 and npm2, and you want to develop this project in npm3, you have to fix 1 line in tars/tars.js
+```javascript
+handlebars: tars.require('gulp-compile-handlebars/node_modules/handlebars'),
+// replace with
+handlebars: tars.require('handlebars'),
+```
+* Use Handlebars from its own pacakge, not from gulp-handlebars.
+* Add css extension for using in etc folder.
+
+## Version 1.4.1
+
+* Added verbose css-logs  on Error.
+* Docs-update about [Babel using](js-processing.md).
+* Fix of html-prettify config html-prettify.
+* Notification will appear on Error even all notifications has been disabled.
+* Deps have been updated, bugs have been fixed.
+
 ## Version 1.4.0
 
 * Added css-import supporting. Css (less, scss, sass, styl) files, began with _ will not be compiled, so it is recommended to import only these files. [More info](css-processing.md).
@@ -7,7 +26,7 @@
 * Tars-config.js has been updated. [Sourcemaps](options.md#sourcemaps) has more options. Added [Babel supporting switcher](options.md#usebabel).
 * Added ES6(ES.Next) syntax supporting with [Babel](options.md#usebabel). [More info](js-processing.md).
 * Autoprefixer is moved to the end in the postprocessors list.
-* Notifier got one interface for failed and successed end of task. 
+* Notifier got one interface for failed and successed end of task.
 * gulp-html-prettify has benn added. Formatted HTML will be created if [minifyHtml](options.md#minifyhtml) will be switched to false.
 * Disabled automatics css-compiling for IE9. You need to use flags `--ie9` or `--ie` to compile stylies for IE9. `--ie` will compile stylies for IE8 and IE9 too.
 * Added more helpers, updated docs for helpers and moved all helpers to task-folder.
