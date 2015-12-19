@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = tars.packages.gulp;
-var tarsConfig = tars.config;
 var gulpif = tars.packages.gulpif;
 var concat = tars.packages.concat;
 var stylus = tars.packages.stylus;
