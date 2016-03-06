@@ -1,51 +1,71 @@
 'use strict';
 
-var gulp = tars.packages.gulp;
-var gutil = tars.packages.gutil;
-var spritesmith = tars.packages.spritesmith;
-var plumber = tars.packages.plumber;
-var notifier = tars.helpers.notifier;
+const gulp = tars.packages.gulp;
+const plumber = tars.packages.plumber;
+const notifier = tars.helpers.notifier;
+const skipTaskWithEmptyPipe = tars.helpers.skipTaskWithEmptyPipe;
+const stringHelper = tars.helpers.stringHelper;
 
-var staticFolderName = tars.config.fs.staticFolderName;
-var imagesFolderName = tars.config.fs.imagesFolderName;
+const staticFolderName = tars.config.fs.staticFolderName;
+const imagesFolderName = tars.config.fs.imagesFolderName;
+const preprocExtension = tars.cssPreproc.mainExt;
+const preprocName = tars.cssPreproc.name;
 
 /**
- * Make sprite for svg-fallback and stylus for this sprite
+ * Make sprite for svg-fallback and styles for this sprite
+ * Return pipe with styles for sprite
  */
-module.exports = function () {
+module.exports = () => {
 
-    return gulp.task('css:make-fallback-for-svg', function (cb) {
+    return gulp.task('css:make-fallback-for-svg', cb => {
 
-        var spriteData = '';
-
-        if (tars.config.useSVG && (tars.flags.ie8 || tars.flags.ie)) {
-
-            spriteData = gulp.src('./dev/' + staticFolderName + '/' + imagesFolderName + '/rastered-svg-images/*.png')
+        if (tars.config.svg.active && tars.config.svg.workflow === 'sprite' && (tars.flags.ie8 || tars.flags.ie)) {
+            const spriteData = gulp.src(
+                    './dev/' + staticFolderName + '/' + imagesFolderName + '/rastered-svg-images/*.png'
+                )
                 .pipe(plumber({
-                    errorHandler: function (error) {
+                    errorHandler(error) {
                         notifier.error('An error occurred while making fallback for svg.', error);
-                        this.emit('end');
                     }
                 }))
+                .pipe(skipTaskWithEmptyPipe('css:make-fallback-for-svg', cb))
                 .pipe(
-                    spritesmith(
+                    tars.require('gulp.spritesmith')(
                         {
-                            imgName: 'svg-fallback-sprite.png',
-                            cssName: 'svg-fallback-sprite.styl',
+                            imgName: 'svg-fallback-sprite' + tars.options.build.hash + '.png',
+                            cssName: 'svg-fallback-sprite.' + preprocExtension,
                             Algorithms: 'diagonal',
-                            cssTemplate: './markup/' + staticFolderName + '/stylus/sprite-generator-templates/stylus.svg-fallback-sprite.mustache'
+                            padding: 4,
+                            cssTemplate: './markup/' + staticFolderName
+                                            + '/' + preprocName + '/sprite-generator-templates/'
+                                            + preprocName + '.svg-fallback-sprite.mustache'
                         }
                     )
                 );
 
-            spriteData.img.pipe(gulp.dest('./dev/' + staticFolderName + '/' + imagesFolderName + '/rastered-svg-sprite/'))
-                .pipe(notifier.success('Sprite-img for svg is ready'));
+            spriteData.img
+                .pipe(
+                    gulp.dest('./dev/' + staticFolderName + '/' + imagesFolderName + '/rastered-svg-sprite/')
+                )
+                .pipe(
+                    notifier.success('Sprite-img for svg is ready!')
+                );
 
-            return spriteData.css.pipe(gulp.dest('./markup/' + staticFolderName + '/stylus/sprites-stylus/'))
-                    .pipe(notifier.success('Stylus for svg-sprite is ready'));
-        } else {
-            gutil.log('!SVG is not used!');
-            cb(null);
+            return spriteData.css
+                    .pipe(
+                        gulp.dest(
+                            './markup/' + staticFolderName + '/' + preprocName + '/sprites-' + preprocName + '/'
+                        )
+                    )
+                    .pipe(
+                        notifier.success(
+                            stringHelper.capitalizeFirstLetter(preprocName) + ' for svg-sprite is ready'
+                        )
+                    );
+
         }
+
+        tars.skipTaskLog('css:make-fallback-for-svg', 'Svg-fallback is not used');
+        cb(null);
     });
 };

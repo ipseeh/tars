@@ -1,73 +1,82 @@
 'use strict';
 
-var gulp = tars.packages.gulp;
-var spritesmith = tars.packages.spritesmith;
-var plumber = tars.packages.plumber;
-var notifier = tars.helpers.notifier;
+const gulp = tars.packages.gulp;
+const plumber = tars.packages.plumber;
+const notifier = tars.helpers.notifier;
+const stringHelper = tars.helpers.stringHelper;
 
-var staticFolderName = tars.config.fs.staticFolderName;
-var imagesFolderName = tars.config.fs.imagesFolderName;
-var dpi = tars.config.useImagesForDisplayWithDpi;
+const staticFolderName = tars.config.fs.staticFolderName;
+const imagesFolderName = tars.config.fs.imagesFolderName;
+const usedDpiArray = tars.config.useImagesForDisplayWithDpi;
+const preprocExtension = tars.cssPreproc.mainExt;
+const preprocName = tars.cssPreproc.name;
 
 /**
- * Make sprite and stylus for this sprite
+ * Make sprite and styles for this sprite
  */
-module.exports = function () {
+module.exports = () => {
 
-    return gulp.task('css:make-sprite', function () {
+    return gulp.task('css:make-sprite', () => {
+        const dpiLength = usedDpiArray.length;
 
-        var spriteData = [];
-        var dpiLength = dpi.length;
-        var dpi192 = false;
-        var dpi288 = false;
-        var dpi384 = false;
-        var i = 0;
+        let spriteData = [];
+        let dpiConfig = {};
 
-        for (i = 0; i < dpiLength; i++) {
-            if (dpi[i] == 192) {
-                dpi192 = true;
-            } else if (dpi[i] === 288) {
-                dpi288 = true;
-            } else if (dpi[i] === 384) {
-                dpi384 = true;
-            }
-        }
+        usedDpiArray.forEach(dpiValue => {
+            dpiConfig['dpi' + dpiValue] = true;
+        });
 
-        for (i = 0; i < dpiLength; i++) {
-            spriteData.push(gulp.src('./markup/' + staticFolderName + '/' + imagesFolderName + '/sprite/' + dpi[i] + 'dpi/*.png')
+        /* eslint-disable no-loop-func */
+
+        for (let i = 0; i < dpiLength; i++) {
+            spriteData.push(gulp.src(
+                    './markup/' + staticFolderName + '/' + imagesFolderName
+                    + '/sprite/' + usedDpiArray[i] + 'dpi/*.png'
+                )
                 .pipe(plumber({
-                    errorHandler: function (error) {
+                    errorHandler(error) {
                         notifier.error('An error occurred while making png-sprite.', error);
-                        this.emit('end');
                     }
                 }))
                 .pipe(
-                    spritesmith(
+                    tars.require('gulp.spritesmith')(
                         {
-                            imgName: 'sprite.png',
-                            cssName: 'sprite_' + dpi[i] + '.styl',
+                            imgName: 'sprite' + tars.options.build.hash + '.png',
+                            cssName: 'sprite_' + usedDpiArray[i] + '.' + preprocExtension,
                             Algorithms: 'diagonal',
-                            cssOpts: {
-                                dpi192: dpi192,
-                                dpi288: dpi288,
-                                dpi384: dpi384
-                            },
+                            cssOpts: dpiConfig,
                             padding: (i + 1) * 4,
-                            cssTemplate: './markup/' + staticFolderName + '/stylus/sprite-generator-templates/stylus.sprite.mustache'
+                            cssTemplate: './markup/' + staticFolderName + '/'
+                                            + preprocName + '/sprite-generator-templates/'
+                                            + preprocName + '.sprite.mustache'
                         }
                     )
                 )
             );
 
-            spriteData[i].img.pipe(gulp.dest('./dev/' + staticFolderName + '/' + imagesFolderName + '/png-sprite/' + dpi[i] + 'dpi/'))
+            spriteData[i].img
                 .pipe(
-                    notifier.success('Sprite img with dpi = ' + dpi[i] + ' is ready')
+                    gulp.dest(
+                        './dev/' + staticFolderName + '/' + imagesFolderName
+                        + '/png-sprite/' + usedDpiArray[i] + 'dpi/'
+                    )
+                )
+                .pipe(
+                    notifier.success('Sprite img with dpi = ' + usedDpiArray[i] + ' is ready')
                 );
         }
 
-        return spriteData[0].css.pipe(gulp.dest('./markup/' + staticFolderName + '/stylus/sprites-stylus/'))
+        /* eslint-enable no-loop-func */
+
+        // Returns css for dpi 96
+        return spriteData[0].css
                 .pipe(
-                    notifier.success('Stylus for sprites is ready')
+                    gulp.dest('./markup/' + staticFolderName + '/' + preprocName + '/sprites-' + preprocName + '/')
+                )
+                .pipe(
+                    notifier.success(
+                        stringHelper.capitalizeFirstLetter(preprocName) + ' for sprites is ready'
+                    )
                 );
     });
 };

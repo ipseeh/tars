@@ -1,24 +1,45 @@
 'use strict';
 
-var gulp = tars.packages.gulp;
-var gutil = tars.packages.gutil;
-var jade = tars.packages.jade;
-var data = tars.packages.data;
-var replace = tars.packages.replace;
-var through2 = tars.packages.through2;
-var path = require('path');
-var fs = require('fs');
-var plumber = tars.packages.plumber;
-var notifier = tars.helpers.notifier;
-var browserSync = tars.packages.browserSync;
+const gulp = tars.packages.gulp;
+const replace = tars.packages.replace;
+const plumber = tars.packages.plumber;
+const rename = tars.packages.rename;
+const through2 = tars.packages.through2;
+const fs = require('fs');
+const notifier = tars.helpers.notifier;
+const browserSync = tars.packages.browserSync;
+const generateStaticPath = require(tars.root + '/tasks/html/helpers/generate-static-path');
+
+let patterns = [];
+
+/**
+ * Traverse recursively through data-object
+ * If any property is a funciton,
+ * this function will be called
+ * @param  {Object} obj      Current object to traverse in current step
+ * @param  {Object} fullData Object with all data
+ */
+function traverseThroughObject(obj, fullData) {
+    for (let property in obj) {
+        if (obj.hasOwnProperty(property)) {
+            if (typeof obj[property] === 'object') {
+                traverseThroughObject(obj[property], fullData);
+            }
+
+            if (typeof obj[property] === 'function') {
+                obj[property] = obj[property].call(null, fullData);
+            }
+        }
+    }
+}
 
 /**
  * Concat all data for all modules to one file
  * @return {Object} Object with data for modules
  */
 function concatModulesData() {
-    var dataEntry;
-    var readyModulesData;
+    let dataEntry;
+    let readyModulesData;
 
     try {
         dataEntry = fs.readFileSync('./dev/temp/modulesData.js', 'utf8');
@@ -28,60 +49,34 @@ function concatModulesData() {
 
     if (dataEntry) {
         eval('readyModulesData = {' + dataEntry + '}');
+        traverseThroughObject(readyModulesData, readyModulesData);
     } else {
         readyModulesData = '{}';
+    }
+
+    // Add helpers for Jade into readyModulesData in case of using Jade as templater
+    if (tars.templater.name === 'jade') {
+        readyModulesData = Object.assign(readyModulesData, {
+            jadeHelpers: require(tars.root + '/tasks/html/helpers/jade-helpers')
+        });
     }
 
     return readyModulesData;
 }
 
-var patterns = [];
-
-if (!tars.flags.ie8 || !tars.flags.ie) {
+if (!tars.flags.ie8 && !tars.flags.ie) {
     patterns.push(
         {
-            match: '<link href="%=staticFolder=%css/main_ie8%=hash=%%=min=%.css" rel="stylesheet" type="text/css">',
+            match: /<!--\[if IE 8.*endif\]-->|<!--\[if lt IE 9.*endif\]-->/gm,
             replacement: ''
         }
     );
 }
 
-if (!tars.flags.ie9 || !tars.flags.ie) {
+if (!tars.flags.ie9 && !tars.flags.ie) {
     patterns.push(
         {
-            match: '<link href="%=staticPrefix=%css/main_ie9%=hash=%%=min=%.css" rel="stylesheet" type="text/css">',
-            replacement: ''
-        }
-    );
-}
-
-if (tars.flags.min || tars.flags.release) {
-    patterns.push(
-        {
-            match: '%=min=%',
-            replacement: '.min'
-        }
-    );
-} else {
-    patterns.push(
-        {
-            match: '%=min=%',
-            replacement: ''
-        }
-    );
-}
-
-if (tars.flags.release) {
-    patterns.push(
-        {
-            match: '%=hash=%',
-            replacement: tars.options.build.hash
-        }
-    );
-} else {
-    patterns.push(
-        {
-            match: '%=hash=%',
+            match: /<!--\[if IE 9.*endif\]-->/gm,
             replacement: ''
         }
     );
@@ -89,20 +84,69 @@ if (tars.flags.release) {
 
 patterns.push(
     {
-        match: '%=staticPrefix=%',
-        replacement: tars.config.staticPrefix
+        match: '%=min=%',
+        replacement: tars.flags.min || tars.flags.release ? '.min' : ''
+    }, {
+        match: '%=hash=%',
+        replacement: tars.flags.release ? tars.options.build.hash : ''
     }
 );
 
+if (
+    tars.config.svg.active && tars.config.svg.workflow === 'symbols' &&
+    tars.config.svg.symbolsConfig.loadingType === 'inject'
+) {
+    patterns.push(
+        {
+            match: '%=symbols=%',
+            replacement: (() => {
+
+                /* eslint-disable no-unused-vars */
+
+                try {
+                    return fs.readFileSync('./dev/temp/svg-symbols' + tars.options.build.hash + '.svg', 'utf8');
+                } catch (error) {
+                    return '';
+                }
+
+                /* eslint-enable no-unused-vars */
+            })
+        }
+    );
+} else {
+    patterns.push(
+        {
+            match: '%=symbols=%',
+            replacement: ''
+        }
+    );
+}
+
+if (
+    !tars.config.svg.active || tars.config.svg.workflow !== 'symbols' ||
+    tars.config.svg.symbolsConfig.loadingType !== 'separate-file-with-link' ||
+    !tars.config.svg.symbolsConfig.usePolyfillForExternalSymbols
+) {
+    patterns.push(
+        {
+            match: '<script src="%=static=%js/separate-js/svg4everybody.min.js"></script>',
+            replacement: ''
+        }, {
+            match: '<script>svg4everybody();</script>',
+            replacement: ''
+        }
+    );
+}
+
 /**
- * Jade compilation of pages templates.
+ * HTML compilation of pages templates.
  * Templates with _ prefix won't be compiled
  */
-module.exports = function () {
-
-    return gulp.task('html:compile-templates', function (cb) {
-
-        var modulesData, error;
+module.exports = () => {
+    return gulp.task('html:compile-templates', () => {
+        let modulesData;
+        let error;
+        let compileError;
 
         try {
             modulesData = concatModulesData();
@@ -111,19 +155,25 @@ module.exports = function () {
             modulesData = false;
         }
 
-        return gulp.src(['./markup/pages/**/*.jade', '!./markup/pages/**/_*.jade'])
+        return gulp.src(['./markup/pages/**/*.' + tars.templater.ext,
+                         '!./markup/pages/**/_*.' + tars.templater.ext])
             .pipe(plumber({
-                    errorHandler: function (error) {
-                        notifier.error('An error occurred while compiling jade.', error);
-                        this.emit('end');
-                    }
+                errorHandler(pipeError) {
+                    notifier.error('An error occurred while compiling to html.', pipeError);
+                    this.emit('end');
+                    compileError = true;
+                }
             }))
             .pipe(
                 modulesData
-                    ? jade({ pretty: true, locals: concatModulesData() })
+                    ? tars.templater.fn(modulesData)
                     : through2.obj(
                         function () {
+                            /* eslint-disable no-invalid-this */
+
                             this.emit('error', new Error('An error occurred with data-files!\n' + error));
+
+                            /* eslint-enable no-invalid-this */
                         }
                     )
             )
@@ -131,10 +181,16 @@ module.exports = function () {
                 patterns: patterns,
                 usePrefix: false
             }))
+            .pipe(generateStaticPath())
+            .pipe(rename(pathToFileToRename => {
+                pathToFileToRename.extname = '.html';
+            }))
             .pipe(gulp.dest('./dev/'))
-            .pipe(browserSync.reload({ stream: true }))
-            .pipe(
-                notifier.success('Templates\'ve been compiled')
-            );
+            .on('end', () => {
+                if (!compileError) {
+                    browserSync.reload();
+                    notifier.success('Templates\'ve been compiled');
+                }
+            });
     });
 };
