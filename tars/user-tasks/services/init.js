@@ -23,6 +23,7 @@ function makeUrl(type, version) {
     } else {
         return urlTemplate + tars.cssPreproc.name + '/archive/' + version + '.zip';
     }
+    console.log(urlTemplate);
 }
 
 /**
