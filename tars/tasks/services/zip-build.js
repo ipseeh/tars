@@ -21,11 +21,15 @@ module.exports = () => {
                         notifier.error('An error occurred while creating zip-archive.', error);
                     }
                 }))
+<<<<<<< .merge_file_n1oioa
 <<<<<<< HEAD
                 .pipe(zip('_build' + tars.options.build.version + '.zip'))
 =======
                 .pipe(zip(name + version + '.zip'))
 >>>>>>> tars/master
+=======
+                .pipe(zip(name + version + '.zip'))
+>>>>>>> .merge_file_YieRgm
                 .pipe(gulp.dest(tars.options.build.path))
                 .pipe(
                     notifier.success('Zip-archive\'s been created')
