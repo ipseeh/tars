@@ -43,42 +43,61 @@ module.exports = {
         }
     },
 
-    /**
-     * Use linting and hinting of js-files
-     * @type {Boolean}
-     */
-    useJsLintAndHint: true,
+    js: {
+        // concat, modular
+        workflow: 'concat',
 
-    /**
-     * Path-strings to js-files, which have to be included before modules' js-files
-     * Example: ['./markup/controller/** /*.js']
-     * @type {Array}
-     */
-    jsPathsToConcatBeforeModulesJs: [],
+        // Only webpack is available right now
+        bundler: 'webpack',
 
-    /**
-     * Lint additional js before modules
-     * @type {Boolean}
-     */
-    lintJsCodeBeforeModules: false,
+        /**
+         * Use linting of js-files
+         * @type {Boolean}
+         */
+        lint: true,
 
-    /**
-     * Path-strings to js-files, which have to be included before modules' js-files
-     * @type {Array}
-     */
-    jsPathsToConcatAfterModulesJs: [],
+        /**
+         * Use babel for ES6(ES7-ESNext) syntax support
+         * @type {Boolean}
+         */
+        useBabel: false,
 
-    /**
-     * Lint additional js after modules
-     * @type {Boolean}
-     */
-    lintJsCodeAfterModules: false,
+        /**
+         * Remove console.log and debugger from js code in release mode
+         * @type {Boolean}
+         */
+        removeConsoleLog: true,
 
-    /**
-     * Use babel for ES6(ES7-ESNext) syntax support
-     * @type {Boolean}
-     */
-    useBabel: false,
+        // Special config for webpack
+        webpack: {
+            useHMR: false
+        },
+
+        /**
+         * Path-strings to js-files, which have to be included before modules' js-files
+         * Example: ['./markup/controller/** /*.js']
+         * @type {Array}
+         */
+        jsPathsToConcatBeforeModulesJs: [],
+
+        /**
+         * Lint additional js before modules
+         * @type {Boolean}
+         */
+        lintJsCodeBeforeModules: false,
+
+        /**
+         * Path-strings to js-files, which have to be included before modules' js-files
+         * @type {Array}
+         */
+        jsPathsToConcatAfterModulesJs: [],
+
+        /**
+         * Lint additional js after modules
+         * @type {Boolean}
+         */
+        lintJsCodeAfterModules: false
+    },
 
     /**
      * Write sourcemaps
@@ -198,12 +217,6 @@ module.exports = {
          */
         injectChanges: false
     },
-
-    /**
-     * Remove console.log and debugger from js code in release mode
-     * @type {Boolean}
-     */
-    removeConsoleLog: true,
 
     /**
      * Minify result html in build version
