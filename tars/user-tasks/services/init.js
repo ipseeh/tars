@@ -20,8 +20,10 @@ function makeUrl(type, version) {
 
     if (type === 'templater') {
         return urlTemplate + tars.templater.name + '/archive/' + version + '.zip';
+        console.log(urlTemplate);
     } else {
         return urlTemplate + tars.cssPreproc.name + '/archive/' + version + '.zip';
+        console.log(urlTemplate);
     }
     console.log(urlTemplate);
 }
