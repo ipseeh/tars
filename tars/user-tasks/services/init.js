@@ -225,8 +225,6 @@ module.exports = () => {
                 tars.say('Your ' + tars.templater.name + '-files were not changed');
             }
 
-            console.log(urlTemplate);
-
             console.log(gutil.colors.black.bold('--------------------------------------------------------\n'));
         }
 
