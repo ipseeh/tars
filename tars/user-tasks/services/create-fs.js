@@ -4,7 +4,7 @@ const gulp = tars.packages.gulp;
 const fs = require('fs');
 
 const staticFolderName = tars.config.fs.staticFolderName;
-const staticFolderPath = staticFolderName;
+const staticFolderPath = 'markup/' + staticFolderName;
 const imagesFolderPath = staticFolderPath + '/' + tars.config.fs.imagesFolderName;
 
 let paths = [
