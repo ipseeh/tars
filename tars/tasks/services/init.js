@@ -19,6 +19,8 @@ function makeUrl(type, version) {
     const urlTemplate = 'https://github.com/' + githubConfig.user + '/' + githubConfig.repoPrefix;
 
     if (type === 'templater') {
+        console.log(version);
+        console.log(urlTemplate);
         return urlTemplate + tars.templater.name + '/archive/' + version + '.zip';
     } else {
         return urlTemplate + tars.cssPreproc.name + '/archive/' + version + '.zip';
