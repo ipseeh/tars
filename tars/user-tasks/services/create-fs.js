@@ -8,9 +8,9 @@ const staticFolderPath = 'markup/' + staticFolderName;
 const imagesFolderPath = staticFolderPath + '/' + tars.config.fs.imagesFolderName;
 
 let paths = [
-    staticFolderPath + '/js/framework',
-    staticFolderPath + '/js/libraries',
-    staticFolderPath + '/js/plugins',
+    staticFolderPath + '/scripts/framework',
+    staticFolderPath + '/scripts/libraries',
+    staticFolderPath + '/scripts/plugins',
     imagesFolderPath,
     imagesFolderPath + '/content',
     imagesFolderPath + '/general',

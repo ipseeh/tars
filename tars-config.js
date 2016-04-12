@@ -34,7 +34,7 @@ module.exports = {
     svg: {
         active: true,
         // symbols, sprite
-        workflow: 'sprite',
+        workflow: 'symbols',
         symbolsConfig: {
             // separate-file, separate-file-with-link, inject
             loadingType: 'inject',
@@ -45,7 +45,7 @@ module.exports = {
 
     js: {
         // concat, modular
-        workflow: 'concat',
+        workflow: 'modular',
 
         // Only webpack is available right now
         bundler: 'webpack',
@@ -240,14 +240,14 @@ module.exports = {
      * Could be like '../../../build' or absolute path
      * @type {String}
      */
-    buildPath: './builds/',
+    buildPath: './app/',
 
     /**
      * Use build versioning
      * Build version is a date ot building
      * @type {Boolean}
      */
-    useBuildVersioning: true,
+    useBuildVersioning: false,
 
     /**
      * Use archiver for your build
@@ -275,7 +275,7 @@ module.exports = {
      * Available 'jade' and 'handlebars'
      * @type {String}
      */
-    templater: 'handlebars',
+    templater: 'jade',
 
     /**
      * Css-preprocessor
@@ -283,7 +283,7 @@ module.exports = {
      * .sass extension is supported if cssPreprocessor is 'scss'
      * @type {String}
      */
-    cssPreprocessor: 'scss',
+    cssPreprocessor: 'stylus',
 
     /**
      * What kind of size of images are you going to use.
@@ -320,14 +320,14 @@ module.exports = {
          * 'static' by default
          * @type {String}
          */
-        staticFolderName: 'static',
+        staticFolderName: 'assets',
 
         /**
          * Name of folder with images
          * 'img' by default
          * @type {String}
          */
-        imagesFolderName: 'img'
+        imagesFolderName: 'images'
     }
 
     ////////////////////////////////////////////////////
